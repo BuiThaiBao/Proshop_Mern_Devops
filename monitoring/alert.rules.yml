@@ -1,0 +1,38 @@
+groups:
+  - name: proshop_system_alerts
+    rules:
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 85
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "CPU cao bất thường"
+          description: 'CPU đang ở mức {{ printf "%.1f" $value }}%. Có thể hệ thống đang bị tấn công hoặc quá tải.'
+
+      - alert: HighMemoryUsage
+        expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 > 90
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "RAM cao bất thường"
+          description: 'RAM usage đang ở mức {{ printf "%.1f" $value }}%.'
+
+      - alert: HighDiskUsage
+        expr: (1 - node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk sắp đầy"
+          description: 'Disk usage đang ở mức {{ printf "%.1f" $value }}%.'
+
+      - alert: TargetDown
+        expr: up == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Monitoring target down"
+          description: "Target {{ $labels.job }} trên {{ $labels.instance }} đang down."
