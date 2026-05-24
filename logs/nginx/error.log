@@ -1,0 +1,37 @@
+2026/05/21 13:59:00 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 13:59:01 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 13:59:01 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 13:59:02 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 13:59:03 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 13:59:05 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 13:59:08 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 13:59:15 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 13:59:28 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 13:59:54 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 14:00:45 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/21 14:01:45 [emerg] 1#1: invalid number of arguments in "limit_req_zone" directive in /etc/nginx/nginx.conf:6
+2026/05/22 09:06:48 [error] 23#23: *64 limiting requests, excess: 20.740 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 23#23: *65 limiting requests, excess: 20.665 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 23#23: *66 limiting requests, excess: 20.590 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 23#23: *67 limiting requests, excess: 20.515 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 23#23: *68 limiting requests, excess: 20.440 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 23#23: *69 limiting requests, excess: 20.365 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 23#23: *70 limiting requests, excess: 20.290 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 23#23: *71 limiting requests, excess: 20.220 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 23#23: *72 limiting requests, excess: 20.145 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *73 limiting requests, excess: 20.075 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *74 limiting requests, excess: 20.005 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *77 limiting requests, excess: 20.845 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *78 limiting requests, excess: 20.770 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *79 limiting requests, excess: 20.700 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *80 limiting requests, excess: 20.575 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *81 limiting requests, excess: 20.500 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *82 limiting requests, excess: 20.430 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *83 limiting requests, excess: 20.355 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *84 limiting requests, excess: 20.285 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *85 limiting requests, excess: 20.215 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *86 limiting requests, excess: 20.145 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *87 limiting requests, excess: 20.070 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 22#22: *89 limiting requests, excess: 20.905 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 24#24: *90 limiting requests, excess: 20.830 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"
+2026/05/22 09:06:48 [error] 24#24: *91 limiting requests, excess: 20.750 by zone "api", client: 172.18.0.1, server: _, request: "GET /api/products HTTP/1.1", host: "localhost:8080"

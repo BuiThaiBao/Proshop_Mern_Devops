@@ -1,0 +1,167 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: proshop-frontend
+    restart: unless-stopped
+    networks:
+      - app-net
+    depends_on:
+      - backend
+    mem_limit: 128m
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: proshop-backend
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - app-net
+    depends_on:
+      - mongo
+    mem_limit: 256m
+
+  mongo:
+    image: mongo:6
+    container_name: proshop-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+      - ./backups:/backup
+    networks:
+      - app-net
+    mem_limit: 320m
+
+  nginx:
+    image: nginx:alpine
+    container_name: proshop-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./certbot/www:/var/www/certbot:ro
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - app-net
+    depends_on:
+      - frontend
+      - backend
+    mem_limit: 128m
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/rootfs"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    networks:
+      - app-net
+    mem_limit: 80m
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/alert.rules.yml:/etc/prometheus/alert.rules.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=3d"
+      - "--storage.tsdb.retention.size=1GB"
+    networks:
+      - app-net
+    depends_on:
+      - node-exporter
+      - alertmanager
+    mem_limit: 180m
+
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: loki
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - loki-data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - app-net
+    mem_limit: 180m
+
+  promtail:
+    image: grafana/promtail:2.9.0
+    container_name: promtail
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/promtail-config.yml:/etc/promtail/config.yml:ro
+      - ./logs/nginx:/var/log/nginx:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log:/host/var/log:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - app-net
+    depends_on:
+      - loki
+    mem_limit: 120m
+
+  alertmanager:
+    image: prom/alertmanager:v0.26.0
+    container_name: alertmanager
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9093:9093"
+    volumes:
+      - ./monitoring/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+    networks:
+      - app-net
+    mem_limit: 80m
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin123}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - app-net
+    depends_on:
+      - prometheus
+      - loki
+    mem_limit: 160m
+
+volumes:
+  mongo-data:
+  prometheus-data:
+  loki-data:
+  grafana-data:
+
+networks:
+  app-net:
+    driver: bridge

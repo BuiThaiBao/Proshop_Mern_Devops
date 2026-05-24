@@ -1,0 +1,60 @@
+services:
+  mongo:
+    image: mongo:6
+    container_name: proshop-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+      - ./backups:/backup
+    networks:
+      - app-net
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    image: proshop-backend:latest
+    container_name: proshop-backend
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - app-net
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: proshop-frontend:latest
+    container_name: proshop-frontend
+    restart: unless-stopped
+    networks:
+      - app-net
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    container_name: proshop-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - app-net
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  mongo-data:
+
+networks:
+  app-net:
+    driver: bridge
