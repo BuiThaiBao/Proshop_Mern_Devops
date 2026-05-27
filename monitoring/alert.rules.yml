@@ -11,8 +11,8 @@ groups:
           description: 'CPU đang ở mức {{ printf "%.1f" $value }}%. Có thể hệ thống đang bị tấn công hoặc quá tải.'
 
       - alert: HighMemoryUsage
-        expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 > 90
-        for: 10s
+        expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 > 85
+        for: 30s
         labels:
           severity: warning
         annotations:
@@ -21,7 +21,7 @@ groups:
 
       - alert: HighDiskUsage
         expr: (1 - node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 > 80
-        for: 10s
+        for: 1m
         labels:
           severity: warning
         annotations:
@@ -30,7 +30,7 @@ groups:
 
       - alert: TargetDown
         expr: up == 0
-        for: 10s
+        for: 15s
         labels:
           severity: critical
         annotations:
