@@ -13,7 +13,7 @@ route:
 receivers:
   - name: telegram
     telegram_configs:
-      - bot_token: /etc/alertmanager/secrets/telegram_bot_token
+      - bot_token: ~/Proshop_Mern_Devops/monitoring/alertmanager/secrets/telegram_bot_token
         chat_id: 5190181853
         parse_mode: "HTML"
         message: |
