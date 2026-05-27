@@ -15,5 +15,31 @@ scrape_configs:
           - localhost
         labels:
           job: nginx
-          host: proshop-local
+          host: proshop-ec2
           __path__: /var/log/nginx/*.log
+
+  - job_name: docker
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: docker
+          host: proshop-ec2
+          __path__: /var/lib/docker/containers/*/*-json.log
+    pipeline_stages:
+      - json:
+          expressions:
+            log: log
+            stream: stream
+            time: time
+      - output:
+          source: log
+
+  - job_name: syslog
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: syslog
+          host: proshop-ec2
+          __path__: /host/var/log/syslog
