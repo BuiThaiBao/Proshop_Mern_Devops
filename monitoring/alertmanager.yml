@@ -2,7 +2,27 @@ global:
   resolve_timeout: 1m
 
 route:
-  receiver: default
+  receiver: telegram
+  group_by:
+    - alertname
+    - severity
+  group_wait: 10s
+  group_interval: 30s
+  repeat_interval: 1h
 
 receivers:
-  - name: default
+  - name: telegram
+    telegram_configs:
+      - bot_token: /etc/alertmanager/secrets/telegram_bot_token
+        chat_id: 5190181853
+        parse_mode: "HTML"
+        message: |
+          {{ if eq .Status "firing" }}🚨 <b>CẢNH BÁO PROSHOP</b>{{ else }}✅ <b>ĐÃ KHẮC PHỤC</b>{{ end }}
+
+          {{ range .Alerts }}
+          <b>Alert:</b> {{ .Labels.alertname }}
+          <b>Mức độ:</b> {{ .Labels.severity }}
+          <b>Mô tả:</b> {{ .Annotations.description }}
+          <b>Thời gian:</b> {{ .StartsAt }}
+          ---
+          {{ end }}
