@@ -154,7 +154,7 @@ services:
     depends_on:
       - prometheus
       - loki
-    mem_limit: 160m
+    mem_limit: 256m
 
 volumes:
   mongo-data:
